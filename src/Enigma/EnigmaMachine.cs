@@ -12,17 +12,17 @@ namespace Enigma
         /// Gets or sets the slow rotor.
         /// </summary>
         /// <value>The slow rotor.</value>
-        public int SlowRotor { get; set; }
+        public uint SlowRotor { get; set; }
         /// <summary>
         /// Gets or sets the medium rotor.
         /// </summary>
         /// <value>The medium rotor.</value>
-        public int MediumRotor { get; set; }
+        public uint MediumRotor { get; set; }
         /// <summary>
         /// Gets or sets the fast rotor.
         /// </summary>
         /// <value>The fast rotor.</value>
-        public int FastRotor { get; set; }
+        public uint FastRotor { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Enigma.EnigmaMachine"/> class.
@@ -30,17 +30,20 @@ namespace Enigma
         /// <param name="slow">Slow rotor.</param>
         /// <param name="medium">Medium rotor.</param>
         /// <param name="fast">Fast rotor.</param>
-        public EnigmaMachine(int slow, int medium, int fast)
+        public EnigmaMachine(uint slow, uint medium, uint fast)
         {
             SetCode(slow, medium, fast);
         }
-
+        /// <summary>
+        /// Calculates the seed.
+        /// </summary>
+        /// <returns>The seed.</returns>
         public uint CalculateSeed()
         {
             // Grab a snapshot of the rotors as unsigned (to prevent negatives).
-            uint one = (uint)SlowRotor;
-            uint two = (uint)MediumRotor;
-            uint three = (uint)FastRotor;
+            uint one = SlowRotor;
+            uint two = MediumRotor;
+            uint three = FastRotor;
             // Do math to obscure the numbers.
             one = (one ^ two) - three;
             two = (one + two) & three;
@@ -55,12 +58,12 @@ namespace Enigma
         /// <param name="c">C.</param>
         public char ProcessChar(char c)
         {
-            // If we got a lowercase char, turn it into an uppercase.
+            // If we got a lowercase char, turn it uinto an uppercase.
             // If we got something that isn't a letter or at all, just
             // return it. The Enigma didn't process spaces or punctuation.
             if (c > 96 && c < 123)
                 c -= (char)32;
-            else if (c < 65 && c > 90)
+            else if (c < 65 || c > 90)
                 return (char)c;
             // Get the numerical value which is in range 65-90 on ASCII Table.
             int ch = c - 64;
@@ -93,7 +96,7 @@ namespace Enigma
         /// <param name="fast">Fast rotor.</param>
         /// <param name="medium">Medium rotor.</param>
         /// <param name="slow">Slow rotor.</param>
-        public void SetCode(int fast, int medium, int slow)
+        public void SetCode(uint fast, uint medium, uint slow)
         {
             FastRotor = fast;
             MediumRotor = medium;
