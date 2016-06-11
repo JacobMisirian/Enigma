@@ -1,0 +1,24 @@
+﻿<Properties StartupItem="Enigma/Enigma.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Enigma/EnigmaMachine.cs">
+    <Files>
+      <File FileName="Enigma/Program.cs" Line="9" Column="57" />
+      <File FileName="Enigma/EnigmaMachine.cs" Line="100" Column="10" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Enigma" expanded="True">
+            <Node name="Enigma" expanded="True">
+              <Node name="EnigmaMachine.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

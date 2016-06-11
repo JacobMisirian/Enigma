@@ -1,0 +1,5 @@
+/home/jacob/Enigma/Enigma/obj/x86/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/jacob/Enigma/Enigma/bin/Debug/Enigma.exe.mdb
+/home/jacob/Enigma/Enigma/bin/Debug/Enigma.exe
+/home/jacob/Enigma/Enigma/obj/x86/Debug/Enigma.exe
+/home/jacob/Enigma/Enigma/obj/x86/Debug/Enigma.exe.mdb
