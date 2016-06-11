@@ -113,14 +113,16 @@ namespace Enigma
             if (FastRotor == 26)
             {
                 FastRotor = 1;
-                MediumRotor++;
                 if (MediumRotor == 26)
                 {
                     MediumRotor = 1;
-                    SlowRotor++;
                     if (SlowRotor == 26)
                         SlowRotor = 1;
+                    else
+                        SlowRotor++;
                 }
+                else
+                    MediumRotor++;
             }
             else
                 FastRotor++;
