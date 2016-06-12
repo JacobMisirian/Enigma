@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text;
 
+using Enigma.Rotors;
+
 namespace Enigma
 {
     /// <summary>
@@ -9,47 +11,49 @@ namespace Enigma
     public class EnigmaMachine
     {
         /// <summary>
+        /// The rotor i.
+        /// </summary>
+        public static Rotor RotorI =    new RotorI();
+        /// <summary>
+        /// The rotor II.
+        /// </summary>
+        public static Rotor RotorII =   new RotorII();
+        /// <summary>
+        /// The rotor III.
+        /// </summary>
+        public static Rotor RotorIII =  new RotorIII();
+        /// <summary>
+        /// The rotor IV.
+        /// </summary>
+        public static Rotor RotorIV =   new RotorIV();
+        /// <summary>
+        /// The rotor V.
+        /// </summary>
+        public static Rotor RotorV =    new RotorV();
+        /// <summary>
         /// Gets or sets the slow rotor.
         /// </summary>
         /// <value>The slow rotor.</value>
-        public uint SlowRotor { get; set; }
+        public Rotor SlowRotor { get; set; }
         /// <summary>
         /// Gets or sets the medium rotor.
         /// </summary>
         /// <value>The medium rotor.</value>
-        public uint MediumRotor { get; set; }
+        public Rotor MediumRotor { get; set; }
         /// <summary>
         /// Gets or sets the fast rotor.
         /// </summary>
         /// <value>The fast rotor.</value>
-        public uint FastRotor { get; set; }
-
+        public Rotor FastRotor { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="Enigma.EnigmaMachine"/> class.
         /// </summary>
         /// <param name="slow">Slow rotor.</param>
         /// <param name="medium">Medium rotor.</param>
         /// <param name="fast">Fast rotor.</param>
-        public EnigmaMachine(uint slow, uint medium, uint fast)
+        public EnigmaMachine(Rotor slow, Rotor medium, Rotor fast)
         {
-            SetCode(slow, medium, fast);
-        }
-        /// <summary>
-        /// Calculates the seed.
-        /// </summary>
-        /// <returns>The seed.</returns>
-        public uint CalculateSeed()
-        {
-            // Grab a snapshot of the rotors as unsigned (to prevent negatives).
-            uint one = SlowRotor;
-            uint two = MediumRotor;
-            uint three = FastRotor;
-            // Do math to obscure the numbers.
-            one = (one ^ two) - three;
-            two = (one + two) & three;
-            three ^= one - two;
-
-            return ((one * two) ^ three) % 26;
+            SetRotors(slow, medium, fast);
         }
         /// <summary>
         /// Processes the char.
@@ -58,24 +62,19 @@ namespace Enigma
         /// <param name="c">C.</param>
         public char ProcessChar(char c)
         {
-            // If we got a lowercase char, turn it uinto an uppercase.
-            // If we got something that isn't a letter or at all, just
-            // return it. The Enigma didn't process spaces or punctuation.
+            IncrementRotors();
             if (c > 96 && c < 123)
                 c -= (char)32;
-            else if (c < 65 || c > 90)
-                return (char)c;
-            // Get the numerical value which is in range 65-90 on ASCII Table.
-            int ch = c - 64;
-            // Generate our seed within the bounds of 1-26.
-            int seed = (int)CalculateSeed();
-            // Calculate return value by subtracting a combo of our seed
-            // and our character within the confines of 1-26 and add 64 to
-            // bring it to an uppercase ASCII char.
-            int ret = (26 - ((seed + ch) % 26)) + 64;
-            IncrementRotors();
+            else if (c < 65 || c > 91)
+                return c;
+            
+            c = SlowRotor.Substitute(c);
+            c = MediumRotor.Substitute(c);
+            c = FastRotor.Substitute(c);
+            c = MediumRotor.Substitute(c);
+            c = SlowRotor.Substitute(c);
 
-            return (char)ret;
+            return c;
         }
         /// <summary>
         /// Processes the string.
@@ -96,11 +95,23 @@ namespace Enigma
         /// <param name="fast">Fast rotor.</param>
         /// <param name="medium">Medium rotor.</param>
         /// <param name="slow">Slow rotor.</param>
-        public void SetCode(uint fast, uint medium, uint slow)
+        public void SetCode(int slow, int medium, int fast)
         {
-            FastRotor = fast;
-            MediumRotor = medium;
+            FastRotor.Position = fast;
+            MediumRotor.Position = medium;
+            SlowRotor.Position = slow;
+        }
+        /// <summary>
+        /// Sets the rotors.
+        /// </summary>
+        /// <param name="slow">Slow.</param>
+        /// <param name="medium">Medium.</param>
+        /// <param name="fast">Fast.</param>
+        public void SetRotors(Rotor slow, Rotor medium, Rotor fast)
+        {
             SlowRotor = slow;
+            MediumRotor = medium;
+            FastRotor = fast;
         }
         /// <summary>
         /// Increments the rotors.
@@ -110,22 +121,22 @@ namespace Enigma
             // The rotors are essentially a 3 digit, base 26 number
             // so when one number gets to 26, we must set it to 1 and
             // go onto the next number.
-            if (FastRotor == 26)
+            if (FastRotor.Position == 26)
             {
-                FastRotor = 1;
-                if (MediumRotor == 26)
+                FastRotor.Position = 1;
+                if (MediumRotor.Position == 26)
                 {
-                    MediumRotor = 1;
-                    if (SlowRotor == 26)
-                        SlowRotor = 1;
+                    MediumRotor.Position = 1;
+                    if (SlowRotor.Position == 26)
+                        SlowRotor.Position = 1;
                     else
-                        SlowRotor++;
+                        SlowRotor.Position++;
                 }
                 else
-                    MediumRotor++;
+                    MediumRotor.Position++;
             }
             else
-                FastRotor++;
+                FastRotor.Position++;
         }
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents the current <see cref="Enigma.EnigmaMachine"/>.
@@ -133,7 +144,7 @@ namespace Enigma
         /// <returns>A <see cref="System.String"/> that represents the current <see cref="Enigma.EnigmaMachine"/>.</returns>
         public override string ToString()
         {
-            return string.Format("| {0} | {1} | {2} |", SlowRotor, MediumRotor, FastRotor);
+            return string.Format("| {0} | {1} | {2} |", SlowRotor.Position, MediumRotor.Position, FastRotor.Position);
         }
     }
 }

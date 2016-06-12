@@ -36,6 +36,16 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EnigmaMachine.cs" />
+    <Compile Include="Rotors\Rotor.cs" />
+    <Compile Include="Rotors\RotorI.cs" />
+    <Compile Include="Rotors\CharNotFoundException.cs" />
+    <Compile Include="Rotors\RotorII.cs" />
+    <Compile Include="Rotors\RotorIII.cs" />
+    <Compile Include="Rotors\RotorIV.cs" />
+    <Compile Include="Rotors\RotorV.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Rotors\" />
+  </ItemGroup>
 </Project>
