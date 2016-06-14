@@ -1,16 +1,19 @@
 ﻿<Properties StartupItem="Enigma/Enigma.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Enigma/EnigmaMachine.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Enigma/Rotors/Rotor.cs">
     <Files>
-      <File FileName="Enigma/Program.cs" Line="9" Column="57" />
-      <File FileName="Enigma/EnigmaMachine.cs" Line="100" Column="10" />
+      <File FileName="Enigma/Program.cs" Line="4" Column="2" />
+      <File FileName="Enigma/EnigmaMachine.cs" Line="74" Column="13" />
+      <File FileName="Enigma/Rotors/Rotor.cs" Line="33" Column="36" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Enigma" expanded="True">
             <Node name="Enigma" expanded="True">
-              <Node name="EnigmaMachine.cs" selected="True" />
+              <Node name="Rotors" expanded="True">
+                <Node name="Rotor.cs" selected="True" />
+              </Node>
             </Node>
           </Node>
         </State>
